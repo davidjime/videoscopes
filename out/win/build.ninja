@@ -1,0 +1,50 @@
+ninja_required_version = 1.7.2
+
+rule gn
+  command = ../../../../../../Downloads/gn-windows-amd64/gn.exe --root=../.. -q --regeneration gen .
+  pool = console
+  description = Regenerating ninja files
+
+build build.ninja: gn
+  generator = 1
+  depfile = build.ninja.d
+
+subninja toolchain.ninja
+
+build clumascope: phony obj/clumascope.stamp
+build copy_generator_deps: phony obj/copy_generator_deps.stamp
+build cvectorscope: phony obj/cvectorscope.stamp
+build default: phony obj/default.stamp
+build generator: phony gen/bin/generator
+build lumascope: phony obj/lumascope.stamp
+build make_gen_dirs: phony obj/make_gen_dirs.stamp
+build rgbparade: phony obj/rgbparade.stamp
+build runtime: phony obj/runtime.stamp
+build vectorscope: phony obj/vectorscope.stamp
+build zmo: phony lib/zmo.wasm
+build $:clumascope: phony obj/clumascope.stamp
+build $:copy_generator_deps: phony obj/copy_generator_deps.stamp
+build $:cvectorscope: phony obj/cvectorscope.stamp
+build $:default: phony obj/default.stamp
+build $:generator: phony gen/bin/generator
+build $:lumascope: phony obj/lumascope.stamp
+build $:make_gen_dirs: phony obj/make_gen_dirs.stamp
+build $:rgbparade: phony obj/rgbparade.stamp
+build $:runtime: phony obj/runtime.stamp
+build $:vectorscope: phony obj/vectorscope.stamp
+build $:zmo: phony lib/zmo.wasm
+
+build all: phony $
+    obj/clumascope.stamp $
+    obj/copy_generator_deps.stamp $
+    obj/cvectorscope.stamp $
+    obj/default.stamp $
+    gen/bin/generator $
+    obj/lumascope.stamp $
+    obj/make_gen_dirs.stamp $
+    obj/rgbparade.stamp $
+    obj/runtime.stamp $
+    obj/vectorscope.stamp $
+    lib/zmo.wasm
+
+default default
